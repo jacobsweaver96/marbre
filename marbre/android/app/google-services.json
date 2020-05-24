@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "99917029352",
+    "firebase_url": "https://marbre-f191d.firebaseio.com",
+    "project_id": "marbre-f191d",
+    "storage_bucket": "marbre-f191d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:99917029352:android:01bc0e7a0df20353974e5d",
+        "android_client_info": {
+          "package_name": "com.marbre.marbre"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "99917029352-3gnsbpl932c62n01617cj6vtk99i69l0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSHlFn4nSJPoD_XsfhRl1Ow7jW2Y_Uz4s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "99917029352-3gnsbpl932c62n01617cj6vtk99i69l0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
