@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marbre/features/auth/index.dart';
+import 'package:marbre/services/auth/bloc/auth_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   final String name;

@@ -1,7 +1,5 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of 'auth_bloc.dart';
 
-@immutable
 abstract class AuthEvent extends Equatable {
   @override
   List<Object> get props => [];

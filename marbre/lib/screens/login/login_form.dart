@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marbre/features/auth/auth_bloc.dart';
-import 'package:marbre/features/auth/index.dart';
 import 'package:marbre/screens/login/bloc/login_bloc.dart';
+import 'package:marbre/services/auth/bloc/auth_bloc.dart';
 import 'package:marbre/services/auth/user_repository.dart';
 
 import 'login_account_button.dart';

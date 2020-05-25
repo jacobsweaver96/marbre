@@ -1,9 +1,13 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:marbre/features/auth/index.dart';
-import 'package:marbre/services/auth/user_repository.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
+import '../user_repository.dart';
+
+part 'auth_event.dart';
+part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserRepository _userRepository;
@@ -13,7 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       _userRepository = userRepository;
 
   @override
-  AuthState get initialState => UnInitState();
+  AuthState get initialState => Uninitialized();
 
   @override
   Stream<AuthState> mapEventToState(
@@ -33,18 +37,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     if (isSignedIn) {
       final name = await _userRepository.getUser();
-      yield InAuthState(name);
+      yield Authenticated(name);
     } else {
-      yield UnAuthState();
+      yield Unauthenticated();
     }
   }
 
   Stream<AuthState> _mapLoggedInToState() async* {
-    yield InAuthState(await _userRepository.getUser());
+    yield Authenticated(await _userRepository.getUser());
   }
 
   Stream<AuthState> _mapLoggedOutToState() async* {
-    yield UnAuthState();
+    yield Unauthenticated();
     _userRepository.signOut();
   }
 }
