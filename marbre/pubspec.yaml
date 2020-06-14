@@ -12,13 +12,20 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_bloc: ^4.0.0
-  meta: ^1.1.8
+  provider: ^4.1.3
+
+  uuid: ^2.0.4
+  dartz: ^0.9.1
   equatable: ^1.1.1
+  meta: ^1.1.8
+
+  flutter_bloc: ^4.0.0
   rxdart: ^0.24.1
+  fluro: ^1.6.3
 
   font_awesome_flutter: ^8.8.1
   bottom_navy_bar: ^5.4.0
+  fancy_bottom_navigation: ^0.3.2
 
   firebase_core: ^0.4.4+3
   firebase_auth: ^0.16.0

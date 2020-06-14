@@ -1,59 +1,50 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marbre/app_bloc_delegate.dart';
-import 'package:marbre/screens/login/login_screen.dart';
-import 'package:marbre/services/auth/bloc/auth_bloc.dart';
-import 'package:marbre/services/auth/user_repository.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:marbre/domain/services/services.dart';
+import 'package:marbre/infrastructure/auth/firebase_auth_facade.dart';
+import 'package:marbre/infrastructure/marbler/firebase_marbler.dart';
+import 'package:marbre/infrastructure/shared/uuid_v4_factory.dart';
+import 'package:provider/provider.dart';
 
-import 'screens/home/home_screen.dart';
-import 'screens/splash/splash_screen.dart';
+import 'application/auth/auth_bloc.dart';
+import 'application/tab/tab_bloc.dart';
+import 'infrastructure/app_bloc_delegate.dart';
+import 'presentation/app.dart';
+import 'presentation/router/router.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   BlocSupervisor.delegate = AppBlocDelegate();
+  navigator.addSources(Routes.all);
 
-  final UserRepository userRepository = UserRepository();
+  var idFactory = UuidV4Factory();
+  var marblerFactory = FirebaseMarblerFactory(
+    idFactory: idFactory,
+  );
+
+  var firebaseAuth = FirebaseAuth.instance;
+  var googleSignIn = GoogleSignIn();
+
+  var authFacade = FirebaseAuthFacade(
+    marblerFactory: marblerFactory,
+    firebaseAuth: firebaseAuth,
+    googleSignIn: googleSignIn,
+  );
 
   runApp(
-    BlocProvider(
-      create: (context) => AuthBloc(userRepository: userRepository)
-        ..add(AppStarted()),
-      child: App(userRepository: userRepository),
-    )
-  );
-}
-
-class App extends StatelessWidget {
-  final UserRepository _userRepository;
-
-  App({
-    Key key,
-    @required UserRepository userRepository,
-  })
-  : assert(userRepository != null),
-    _userRepository = userRepository,
-    super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          if (state is Uninitialized) {
-            return SplashScreen();
-          }
-
-          if (state is Unauthenticated) {
-            return LoginScreen(userRepository: _userRepository);
-          }
-
-          if (state is Authenticated) {
-            return HomeScreen(name: state.displayName);
-          }
-
-          return Container();
-        },
+    MultiProvider(
+      providers: [
+        Provider<AuthFacade>(create: (_) => authFacade),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthBloc>(create: (_) => AuthBloc(authFacade: authFacade)),
+          BlocProvider<TabBloc>(create: (_) => TabBloc()),
+        ],
+        child: App(),
       ),
-    );
-  }
+    ),
+  );
 }
